@@ -1,0 +1,16 @@
+{
+  "axios": {
+    "timeout": 10000,
+    "url": "http://10.1.85.81:8081",
+    "json": "http://10.1.85.81:9001",
+    "websocket": "ws://localhost:8888"
+  },
+  "thirdSys": {
+    "logout": "http://10.1.62.13:8231",
+    "user": "http://10.1.62.13:8231/user",
+    "bdp": "http://10.1.62.13:8231/bdp"
+  },
+  "md5": {
+    "salt": "1qaz@WSX"
+  }
+}

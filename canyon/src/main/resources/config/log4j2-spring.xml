@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别有：trace, debug, info, warn, error, fatal -->
+<!-- status: 设置log4j2自身内部的信息输出 monitorInterval: 设置自动检测配置文件的修改并重新配置本身的时间间隔秒数，0表示不启用 -->
+<Configuration status="warn" strict="true" monitorInterval="0">
+    <Properties>
+        <!-- 配置日志文件输出路径 -->
+        <Property name="PATH">${sys:LOG_PATH}</Property>
+        <Property name="LEVEL">${sys:LOG_LEVEL}</Property>
+        <Property name="DURATION">${sys:SAVE_DURATION}</Property>
+        <Property name="CONSOLE_LOG_FORMAT">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{(%F:%L)}{cyan} %clr{:}{faint} %m%n</Property>
+        <Property name="FILE_LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${sys:PID}--- [%15.15t] (%F:%L) : %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- 输出日志到控制台 -->
+        <Console name="console_out" target="SYSTEM_OUT">
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="${CONSOLE_LOG_FORMAT}"/>
+        </Console>
+        <!-- 输出info级别日志到文件中 -->
+        <RollingFile name="file_normal" filename="${PATH}/canyon-info.log"  append="true"
+                     filePattern="${PATH}/history-info/%d{yyyyMMdd}/canyon-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="info" onMatch="NEUTRAL" onMismatch="DENY"/>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+            <PatternLayout pattern="${FILE_LOG_FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/> <!-- 多长时间滚动一次(1天) -->
+                <SizeBasedTriggeringPolicy size="100 MB"/> <!-- 一个日志文件的最大大小 -->
+            </Policies>
+            <DefaultRolloverStrategy max="10"> <!-- 同一目录下最多文件个数。默认7个 -->
+                <Delete basePath="${PATH}/history-info" maxDepth="2">
+                    <IfFileName glob="*/canyon-*-*.log.gz">
+                        <IfLastModified age="${DURATION}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <!-- 输出warn、error级别日志到文件中 -->
+        <RollingFile name="file_error" filename="${PATH}/canyon-error.log" append="true"
+                     filePattern="${PATH}/history-error/%d{yyyyMMdd}/canyon-%d{yyyyMMdd}-%i.log.gz">
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout pattern="${FILE_LOG_FORMAT}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/> <!-- 多长时间滚动一次(1天) -->
+                <SizeBasedTriggeringPolicy size="100 MB"/> <!-- 一个日志文件的最大大小 -->
+            </Policies>
+            <DefaultRolloverStrategy max="10"> <!-- 同一目录下最多文件个数。默认7个 -->
+                <Delete basePath="${PATH}/history-error" maxDepth="2">
+                    <IfFileName glob="*/canyon-*-*.log.gz">
+                        <IfLastModified age="${DURATION}"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncRoot level="${LEVEL}" includeLocation="true">
+            <AppenderRef ref="console_out"/>
+            <AppenderRef ref="file_normal"/>
+            <AppenderRef ref="file_error"/>
+        </AsyncRoot>
+    </Loggers>
+</Configuration>

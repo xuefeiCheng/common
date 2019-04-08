@@ -1,0 +1,39 @@
+server:
+  port: 8081            # 项目监听端口
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/canyon?useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT&useSSL=false
+    username: root
+    password: 20121221
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL57Dialect
+  druid:
+    username: admin     # Druid登录用户名
+    password: admin     # Druid登录密码
+  cache:
+    type: ehcache           # 使用redis缓存时，设置值为redis；否则设置为ehcache
+    ehcache:
+      config: classpath:config/ehcache.xml
+  redis:
+    host: 123.206.41.224  # sentinel模式下可省略
+    port: 6379            # sentinel模式下可省略
+    password: 1qaz@WSX
+    sentinel:
+      master: master
+      nodes: 123.206.41.224:26379,123.206.41.224:26380,123.206.41.224:26381
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+logging:
+  log-level: info          # 日志级别
+  log-path: target/log  # 日志保存路径
+  save-duration: 1d     # 日志保存时长，天为单位(d)。eg: 保存10天配置为10d
+  config: classpath:config/log4j2-spring.xml
+cros:
+  allow: http://localhost:9001 # 允许跨域的ip:port，多个之间使用逗号(,)分隔；全部允许可填*
+login:
+  salt: 1qaz@WSX # 用户密码加密盐值

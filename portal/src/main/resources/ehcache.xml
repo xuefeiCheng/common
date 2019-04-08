@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
+    <!--
+        name: 缓存名称
+        maxElementsInMemory: 缓存最大数目
+        maxElementsOnDisk: 硬盘最大缓存数目
+        eternal: 对象是否永久有效，一但设置了，timeout将不起作用
+        overflowToDisk: 是否保存到磁盘，当系统宕机时
+        timeToIdleSeconds: 设置对象在失效前的允许闲置时间，默认0无穷大
+        timeToLiveSeconds: 设置对象在失效前的允许存活时间，默认0无穷大
+        diskPersistent: 是否缓存虚拟机重启期数据
+        diskSpoolBufferSizeMB: 这个参数设置DiskStore(磁盘缓存)的缓存区大小。默认30MB。每个Cache都应有自己的一个缓存区
+        diskExpiryThreadIntervalSeconds: 磁盘失效线程运行时间间隔，默认是120秒
+        memoryStoreEvictionPolicy: 当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。
+                                    默认策略是LRU(最近最少使用)。还可以设置EIFO(先进先出)或LFU(较少使用)
+            clearOnFlush: 内存数量最大时是否清除
+    -->
+    <defaultCache
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="0"
+        timeToLiveSeconds="600"
+        overflowToDisk="false"
+        diskPersistent="false"
+        memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- 认证缓存 -->
+    <cache name="authenticationCache"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+    />
+    <!-- 授权缓存 -->
+    <cache name="authorizationCache"
+           maxElementsInMemory="100"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+    />
+</ehcache>

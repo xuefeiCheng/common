@@ -1,0 +1,55 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false">
+    <!-- 配置磁盘缓存位置 -->
+    <diskStore path="java.io.tmpdir/ehcache"/>
+
+    <!--
+        name: 缓存名称
+        maxElementsInMemory: 缓存最大元素个数
+        maxElementsOnDisk: 硬盘最大缓存个数
+        eternal: 对象是否有效，一旦设置，timeout则不起作用，默认false
+        timeToIdleSeconds: 对象在失效前允许闲置时间（单位：秒）
+        timeToLiveSeconds: 对象在失效前允许存活时间（单位：秒），当与timeToIdleSeconds同时存在时，取最小值
+        overflowToDisk: 当内存中对象达到maxElementsInMemory时，将对象写到磁盘中
+        diskSpoolBufferSizeMB: 设置DiskStore（磁盘缓存）的缓存大小，默认30MB。每个Cache都应有自己的一个缓冲区
+        diskPersistent: 是否缓存虚拟机重启期数据，默认false
+        diskExpiryThreadIntervalSeconds: 缓存元素失效及清除线程的运行间隔，默认120s，过小会导致占用大量CPU资源
+        memoryStoreEvictionPolicy: 内存清理策略 LRU-最近最少使用 FIFO（先进先出） LFU（较少使用）
+        clearOnFlush: 内存数量最大时是否清除
+    -->
+    <!-- 配置默认缓存 -->
+    <defaultCache timeToIdleSeconds="3600"
+                  maxElementsInMemory="10000"
+                  overflowToDisk="false"
+                  diskPersistent="false"
+                  memoryStoreEvictionPolicy="LRU"
+                  clearOnFlush="true" />
+
+    <!-- 配置登录次数校验缓存 -->
+    <cache name="auth_times"
+           timeToIdleSeconds="3600"
+           maxElementsInMemory="10000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="FIFO"
+           clearOnFlush="true" />
+
+    <!-- 配置登录校验缓存 -->
+    <cache name="auth_login"
+           timeToIdleSeconds="3600"
+           maxElementsInMemory="10000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           clearOnFlush="true" />
+
+    <!-- 配置权限校验缓存 -->
+    <cache name="auth_perms"
+           timeToIdleSeconds="3600"
+           maxElementsInMemory="10000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"
+           clearOnFlush="true" />
+</ehcache>

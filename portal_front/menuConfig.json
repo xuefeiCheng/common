@@ -1,0 +1,22 @@
+[
+    {
+        "menuId": "systemManage",
+        "name":"系统管理",
+        "componentURL": "container/MainOne",
+        "children": [
+            {"icon": "ios-person-outline", "name": "用户管理", "componentURL": "systemManage/userManage", "menuId": "userManage"},
+            {"icon": "ios-people-outline", "name": "角色管理", "componentURL": "systemManage/roleManage", "menuId": "roleManage"},
+            {"icon": "ios-book-outline", "name": "日志管理", "componentURL": "systemManage/logManage", "menuId": "logManage"}
+          ]
+    },
+    {
+        "menuId": "business",
+        "name":"一级菜单名2",
+        "componentURL": "container/MainOne",
+        "children": [
+            {  "icon": "ios-paper","name":"二级菜单名4","componentURL":"page4/PageFour", "menuId": "black" },
+            {  "icon": "ios-paper", "name":"二级菜单名5","componentURL":"page5/PageFive","menuId": "white" },
+            {  "icon": "ios-paper", "name":"二级菜单名6","componentURL":"page6/PageSix", "menuId": "base_info" }
+          ]
+    }
+]
